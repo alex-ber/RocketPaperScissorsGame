@@ -3,40 +3,56 @@ from setuptools import setup
 import os
 
 print(__file__)
+print(os.path.abspath(__file__))
+print(setuptools.find_packages(exclude=('tests*',)))
+
 #print(os.path.realpath(__file__))
-requirementPath = os.path.dirname(os.path.realpath(__file__)) + '/requirements.txt'
 
-install_requires = []
-with open(requirementPath) as f:
-    install_requires = f.read().splitlines()
+base_dir = os.path.dirname(os.path.abspath(__file__))
 
+def get_content(filename):
+    with open(os.path.join(base_dir, filename)) as f:
+        content = f.read().splitlines()
+    return content
 
+install_requires = get_content('requirements.txt')
+tests_require = []#get_content('requirements-test.txt')
 
 
 
 setup(
     name='rocket-paper-scissors-gmae',
     version='0.0.1',
-    url='https://github.com/alex-ber/rockerpaperscissorsgame',
+    url='https://github.com/alex-ber/RocketPaperScissorsGame',
     author='Alexander Berkovich',
     description='Rock-Paper-Scissors game',
-    long_description='Engine and some refference implementation of Rock-Paper-Scissors game.',
+    long_description="\n\n".join([
+        open(os.path.join(base_dir, "README.rst"), "r").read(),
+        open(os.path.join(base_dir, "CHANGELOG.rst"), "r").read()
+    ]),
     packages=setuptools.find_packages(exclude=('tests*',)),
     install_requires=install_requires,
+    tests_require=tests_require,
+    test_suite = "tests",
     namespace_packages=('alexber',),
     license='Apache 2.0',
     keywords='game engine player rock papaer scissors',
     classifiers=[
-        'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.7',
-        'Intended Audience :: Developers',
-        "Topic :: Utilities",
-        'License :: OSI Approved :: Apache Software License',
-        'Operating System :: Microsoft :: Windows',
+        # See: https://pypi.python.org/pypi?:action=list_classifiers
         'Development Status :: 1 - Planning',
         'Environment :: Console'
+        'Intended Audience :: Developers',
+        'License :: OSI Approved :: BSD License',
 
+        # List of python versions and their support status:
+        # https://en.wikipedia.org/wiki/CPython#Version_history
+        'Programming Language :: Python',
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: Implementation :: CPython'
+        "Topic :: Utilities",
+        'Topic :: Software Development :: Libraries :: Python Modules',
     ],
-    include_package_data=True,
-    platforms='Windows'
+    zip_safe = False,
+    include_package_data=True
 )
