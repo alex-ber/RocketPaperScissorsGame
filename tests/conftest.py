@@ -7,6 +7,8 @@ try:
 except ImportError:
     pass
 
+from _functools import partial
+
 # @pytest.fixture()
 # def my_dependency():
 #     return 42
@@ -34,7 +36,18 @@ except ImportError:
 #     assert 0  # to see what was printed
 
 
+def _type(obj, mockType):
+    if isinstance(obj, mockType):
+        ret = obj
+    else:
+        ret = type(obj)
+    return ret
 
+@pytest.fixture
+def fixed_type(request, mocker):
+    # faking type() to return expcted type of the Mock
+    l_type = partial(_type, mockType=mocker.Mock)
+    return l_type
 
 def pytest_addoption(parser):
     parser.addoption(
