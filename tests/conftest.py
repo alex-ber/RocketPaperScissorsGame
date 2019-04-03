@@ -8,6 +8,7 @@ except ImportError:
     pass
 
 from _functools import partial
+import inspect
 
 # @pytest.fixture()
 # def my_dependency():
@@ -35,19 +36,38 @@ from _functools import partial
 #         print("second")
 #     assert 0  # to see what was printed
 
+#isn't really needed, type() is built-in function
+#we will only shadow it in particular package
+_real_type = type
 
 def _type(obj, mockType):
     if isinstance(obj, mockType):
         ret = obj
     else:
-        ret = type(obj)
+        ret = _real_type(obj)
     return ret
 
+_real_inspect_signature = inspect.signature
+
+def _inspect_signature(obj, mockType):
+    if isinstance(obj, mockType):
+        sig = obj._spec_signature
+    else:
+        sig = _real_inspect_signature(obj)
+    return sig
+
 @pytest.fixture
-def fixed_type(request, mocker):
-    # faking type() to return expcted type of the Mock
+def fixed_type(mocker):
+    # faking type() to return expected type of the Mock
     l_type = partial(_type, mockType=mocker.Mock)
     return l_type
+
+@pytest.fixture
+def fixed_inspect_signature(mocker):
+    # faking inspect.signature() to return expected signature of the Mock
+    ret = partial(_inspect_signature, mockType=mocker.Mock)
+    return ret
+
 
 def pytest_addoption(parser):
     parser.addoption(
