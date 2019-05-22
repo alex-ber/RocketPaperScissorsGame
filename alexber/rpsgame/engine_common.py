@@ -9,7 +9,8 @@ if _loggerDict is None or not _loggerDict: #is None or {}
                      'for details')
 del _loggerDict
 
-from alexber.utils import LookUpMixinEnum, Enum, enum
+from alexber.utils import LookUpMixinEnum, Enum
+from alexber.utils.enums import enum
 from .players import get_attr, PlayMixin as _PlayMixin, StartedMixin as _StartedMixin, \
     RoundResultMixin as _RoundResultMixin, \
     CompletedMixin as _CompletedMixin, \

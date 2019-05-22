@@ -2,8 +2,8 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-from alexber.utils import LookUpMixinEnum, enum
-
+from alexber.utils import LookUpMixinEnum
+from alexber.utils.enums import enum
 
 def _compare(enumeration):
     """Class decorator for enumerations """

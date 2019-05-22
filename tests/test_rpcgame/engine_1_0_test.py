@@ -6,7 +6,8 @@ from alexber.rpsgame import engine_1_0
 from alexber.rpsgame.engine_1_0 import Engine, reset_event_listeners
 from alexber.rpsgame import app_conf
 from alexber.rpsgame.players import ConstantPlayer, PlayMixin
-from alexber.utils import LookUpMixinEnum, enum
+from alexber.utils import LookUpMixinEnum
+from alexber.utils.enums import enum
 from alexber.rpsgame.engine import RockScissorsPaperEnum as RPS
 from alexber.rpsgame.app import main as rpsgame_app_main
 

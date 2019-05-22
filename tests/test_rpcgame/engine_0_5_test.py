@@ -7,7 +7,8 @@ from alexber.rpsgame import engine_0_5
 from alexber.rpsgame.engine_0_5 import Engine
 from alexber.rpsgame import app_conf
 from alexber.rpsgame.players import ConstantPlayer
-from alexber.utils import LookUpMixinEnum, enum
+from alexber.utils import LookUpMixinEnum
+from alexber.utils.enums import enum
 from alexber.rpsgame.engine import RockScissorsPaperEnum as RPS
 from alexber.rpsgame.app import main as rpsgame_app_main
 from .players_0_5 import HackerPlayer
