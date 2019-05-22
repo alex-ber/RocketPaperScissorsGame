@@ -1,6 +1,17 @@
+import os
+
 import setuptools
 from setuptools import setup
-import os
+
+#from alexber.utils import UploadCommand
+
+VERSION = '0.5.2'
+NAME = 'rocket-paper-scissors-game'
+SHORT_NAME = 'rpsgame'
+VCS_URL = 'https://github.com/alex-ber/RocketPaperScissorsGame'
+DESCRIPTION = 'Rock-Paper-Scissors game'
+AUTHOR = 'Alexander Berkovich'
+
 
 base_dir = os.path.dirname(os.path.realpath(__file__))
 
@@ -17,29 +28,47 @@ extras = {
     'tests': tests_require
 }
 
-lnk_data = os.path.join('alexber', 'rpsgame', 'data')
+lnk_data = os.path.join('alexber', SHORT_NAME, 'data')
 
 try:
+    try:
+        os.unlink(lnk_data)
+    except OSError:
+        pass
+
     os.symlink(os.path.join('..', '..', 'data'), lnk_data)
+
     setup(
-        name='rocket-paper-scissors-game',
-        version='0.5.2',
-        url='https://github.com/alex-ber/RocketPaperScissorsGame',
-        author='Alexander Berkovich',
-        description='Rock-Paper-Scissors game',
+        name=NAME,
+        version=VERSION,
+        url=VCS_URL,
+        author=AUTHOR,
+        description=DESCRIPTION,
         long_description="\n\n".join([
             open(os.path.join(base_dir, "README.rst"), "r").read(),
             open(os.path.join(base_dir, "CHANGELOG.rst"), "r").read()
         ]),
         packages=setuptools.find_packages(exclude=('tests*',)),
         # see https://stackoverflow.com/a/26533921
-        # data_files=[('Lib/site-packages/alexber/rpsgame', ['data/config.ini'
+        # see also https://stackoverflow.com/questions/24347450/how-do-you-add-additional-files-to-a-wheel
+        # data_files=[(f'Lib/site-packages/alexber/{SHORT_NAME}', ['data/config.yml', 'data/requirements-src.txt',
         #                                                    'data/driver.py']),
-        #             #('lib/python3.7/site-packages/alexber/rpsgame', ['data/config.ini'])
+        #             #(f'lib/python3.7/site-packages/alexber/{SHORT_NAME}', ['requirements-src.txt'])
         #             ],
-        package_data={'alexber.rpsgame': ['data/*']},
+        # package_data={'alexber.{SHORT_NAME}': ['data/*', 'data/config.yml',
+        #                                   'data/requirements-stc.txt', 'data/requirements-dest.txt']},
+        package_data={f'alexber.{SHORT_NAME}': ['data/*'
+                                                ]},
         include_package_data=True,
         install_requires=install_requires,
+        # entry_points={"console_scripts": [
+        #     f"python-{SHORT_NAME}-tool=alexber.{SHORT_NAME}.data.__main__:main"
+        # ]},
+        # $ setup.py publish support.
+        # python3 setup.py upload
+        # cmdclass={
+        #     'upload': UploadCommand,
+        # },
         extras_require=extras,
         test_suite="tests",
         tests_require=tests_require,
@@ -79,7 +108,10 @@ try:
         zip_safe=False,
     )
 finally:
-    os.unlink(lnk_data)
-    pass
+    try:
+        os.unlink(lnk_data)
+    except OSError:
+        pass
+
 
 
