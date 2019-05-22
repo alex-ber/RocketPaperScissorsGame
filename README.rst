@@ -40,3 +40,5 @@ RocketPaperScissorsGame requires the following modules.
 
 * Python 3.7+
 
+* alex-ber-utils 0.2.1+
+
