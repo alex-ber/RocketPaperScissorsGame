@@ -3,9 +3,9 @@ import os
 import setuptools
 from setuptools import setup
 
-#from alexber.utils import UploadCommand
 
 VERSION = '0.5.2'
+#from alexber.utils import UploadCommand
 NAME = 'rocket-paper-scissors-game'
 SHORT_NAME = 'rpsgame'
 VCS_URL = 'https://github.com/alex-ber/RocketPaperScissorsGame'
