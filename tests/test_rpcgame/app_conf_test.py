@@ -22,7 +22,8 @@ class TestFreeStyle(object):
         expdd = {'playera':{'cls': 'alexber.rpsgame.players.ConstantPlayer'},
                  'playerb':{'cls': 'alexber.rpsgame.players.ConstantPlayer'}}
 
-        with open_text('tests_data.' + __package__, 'config.yml') as f:
+        pck = '.'.join(['tests_data', __package__])
+        with open_text(pck, 'config.yml') as f:
             d = yaml.safe_load(f)
         d = d['treeroot']
         dd = app_conf.parse_dict(d)
@@ -34,7 +35,8 @@ class TestFreeStyle(object):
         expdd = {'playera':{'cls': 'alexber.rpsgame.players.ConstantPlayer'},
                  'playerb':{'cls': 'alexber.rpsgame.players.ConstantPlayer'}}
 
-        with open_text('tests_data.' + __package__, 'config.json') as f:
+        pck = '.'.join(['tests_data', __package__])
+        with open_text(pck, 'config.json') as f:
             d = json.load(f)
         dd = app_conf.parse_dict(d)
         assert expdd == dd
@@ -45,8 +47,9 @@ class TestFreeStyle(object):
                  'playerb':{'cls': 'alexber.rpsgame.players.ConstantPlayer'}}
         file_manager = ExitStack()
 
+        pck = '.'.join(['tests_data', __package__])
         config_ini = file_manager.enter_context(
-            path('tests_data.' + __package__, 'config.ini'))
+            path(pck, 'config.ini'))
 
         dd = app_conf.parse_ini(config_file=config_ini)
         assert expdd == dd
@@ -73,8 +76,9 @@ class TestFreeStyle(object):
 
         file_manager = ExitStack()
 
+        pck = '.'.join(['tests_data', __package__])
         config_ini = file_manager.enter_context(
-            path('tests_data.' + __package__, 'config.ini'))
+            path(pck, 'config.ini'))
 
         argsv = f'--config_file={config_ini} ' \
                 '--playera.cls=alexber.rpsgame.players.MyPlayer ' \
@@ -93,8 +97,9 @@ def test_parse_config(request, mocker):
 
     file_manager = ExitStack()
 
+    pck = '.'.join(['tests_data', __package__])
     exp_config_ini = file_manager.enter_context(
-        path('tests_data.' + __package__, 'config.ini'))
+        path(pck, 'config.ini'))
 
     argsv = f'--config_file={exp_config_ini} ' \
             '--playera.cls=alexber.rpsgame.players.MyPlayer ' \
@@ -106,8 +111,9 @@ def test_parse_config(request, mocker):
 
     params, _ = app_conf.parse_sys_args()
     # params return from parse_sys_args() contains exp_config_ini
+    pck = '.'.join(['tests_data', __package__])
     actual_config_ini = file_manager.enter_context(
-        path('tests_data.' + __package__, params.config_file))
+        path(pck, params.config_file))
 
     pytest.assume(exp_config_ini == actual_config_ini)
 
@@ -130,7 +136,8 @@ def test_parse_ini(request, mocker):
     exp_cost = 0.1
     exp_cost_type = float
 
-    with path('tests_data.' + __package__, 'numbers.ini') as numbers_f:
+    pck = '.'.join(['tests_data', __package__])
+    with path(pck, 'numbers.ini') as numbers_f:
         dd = app_conf.parse_ini(config_file=numbers_f)
     d= dd['playera']
 
